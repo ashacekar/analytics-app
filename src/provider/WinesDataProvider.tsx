@@ -191,7 +191,7 @@ export const WinesDataProvider: React.FunctionComponent<Props> = ({children}) =>
       setMedianGammaList(tempMedianGammaList); // [me1,me2,.....] where me1, me2 are median gamma values got respective classes in order
 
     // eslint-disable-next-line
-  },[winesData,classNames,meanFlavanoidsList,modeFlavanoidsList,medianFlavanoidsList,meanGammaList,modeGammaList,medianGammaList])
+  },[classNames])
 
   const WinesContextProviderValue = useMemo(
     () => ({ 
@@ -217,7 +217,7 @@ export const WinesDataProvider: React.FunctionComponent<Props> = ({children}) =>
         setGammaByClass 
       }),
       // eslint-disable-next-line
-    [winesData,classNames,meanFlavanoidsList,modeFlavanoidsList,medianFlavanoidsList,meanGammaList,modeGammaList,medianGammaList]
+    [classNames]
   )
 
 

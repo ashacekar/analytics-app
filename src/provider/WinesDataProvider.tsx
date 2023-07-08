@@ -134,7 +134,6 @@ export const WinesDataProvider: React.FunctionComponent<Props> = ({children}) =>
  * Calculate mean, mode, median of flavanoids and gamma whenever wines data updates
  */
   useEffect(()=>{
-
       // Group wine data by Alcohol class as key
       const wineByClass = groupByClass(winesData, 'Alcohol'); // [1:{.....},2:{.....},....]
 

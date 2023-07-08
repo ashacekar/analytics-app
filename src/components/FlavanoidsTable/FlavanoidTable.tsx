@@ -11,32 +11,32 @@ export const FlavanoidTable: React.FC<{}> = () => {
     <table>
         <thead>
           <tr>
-            <th>Measure</th>
-             {classNames.map((c)=>{
-                return <th key={c}>{c}</th>
+            <th>{"Measure"}</th>
+             {classNames.map((alcohol)=>{
+                return <th key={alcohol}>{alcohol}</th>
               }
             )}
           </tr>
         </thead>
         <tbody>
         <tr>
-          <td>Flavonoids Mean</td>
-          {meanFlavanoidsList.map((c)=>{
-                return <th key={c}>{c}</th>
+          <th>{"Flavonoids Mean"}</th>
+          {meanFlavanoidsList.map((mean,i)=>{
+                return <td key={classNames[i]+"-mean"}>{mean}</td>
               }
           )}
         </tr>
         <tr>
-          <td>Flavonoids Mode</td>
-          {modeFlavanoidsList.map((c)=>{
-                return <th key={c}>{c}</th>
+          <th>{"Flavonoids Mode"}</th>
+          {modeFlavanoidsList.map((mode,i)=>{
+                return <td key={classNames[i]+"-mode"}>{mode}</td>
               }
           )}
         </tr>
         <tr>
-          <td>Flavonoids Median</td>
-          {medianFlavanoidsList.map((c)=>{
-                return <th key={c}>{c}</th>
+          <th>{"Flavonoids Median"}</th>
+          {medianFlavanoidsList.map((median,i)=>{
+                return <td key={classNames[i]+"-median"}>{median}</td>
               }
           )}
         </tr>

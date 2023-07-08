@@ -11,32 +11,32 @@ export const GammaTable: React.FC<{}> = () => {
     <table>
         <thead>
           <tr>
-            <th>Measure</th>
-            {classNames.map((c)=>{
-                return <th key={c}>{c}</th>
+            <th>{"Measure"}</th>
+            {classNames.map((alcohol)=>{
+                return <th key={alcohol}>{alcohol}</th>
               }
             )}
           </tr>
         </thead>
         <tbody>
         <tr>
-          <td>Gamma Mean</td>
-          {meanGammaList.map((c)=>{
-                return <th key={c}>{c}</th>
+          <th>{"Gamma Mean"}</th>
+          {meanGammaList.map((mean,i)=>{
+                return <td key={classNames[i]+"-mean"}>{mean}</td>
               }
           )}
         </tr>
         <tr>
-          <td>Gamma Mode</td>
-          {modeGammaList.map((c)=>{
-                return <th key={c}>{c}</th>
+          <th>{"Gamma Mode"}</th>
+          {modeGammaList.map((mode,i)=>{
+                return <td key={classNames[i]+"-mode"}>{mode}</td>
               }
           )}
         </tr>
         <tr>
-          <td>Gamma Median</td>
-          {medianGammaList.map((c)=>{
-                return <th key={c}>{c}</th>
+          <th>{"Gamma Median"}</th>
+          {medianGammaList.map((median,i)=>{
+                return <td key={classNames[i]+"-median"}>{median}</td>
               }
           )}
         </tr>

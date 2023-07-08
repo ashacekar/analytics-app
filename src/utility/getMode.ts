@@ -1,3 +1,7 @@
+/**
+ * Utility to calculate mode of a numerical list
+ * @param arr: number[]
+ */
 export const getMode = (arr: number[]) => {
     const mode: any = {};
   let max = 0, count = 0;

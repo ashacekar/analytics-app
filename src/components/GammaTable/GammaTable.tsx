@@ -1,6 +1,10 @@
 import React from 'react';
 import { useWinesData } from '../../hook/useWinesData';
 
+/*
+ **** Gamma Table ****
+ * React FC to create gamma data table based on wines data
+ */
 export const GammaTable: React.FC<{}> = () => {
   const {classNames, meanGammaList, modeGammaList, medianGammaList} = useWinesData();
   return (

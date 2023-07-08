@@ -1,6 +1,10 @@
 import React from 'react';
 import { useWinesData } from '../../hook/useWinesData';
 
+/*
+ **** Flavanoid Table ****
+ * React FC to create flavanoids data table based on wines data
+ */
 export const FlavanoidTable: React.FC<{}> = () => {
     const {classNames, meanFlavanoidsList, modeFlavanoidsList, medianFlavanoidsList} = useWinesData();
   return (

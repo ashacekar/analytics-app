@@ -1,3 +1,7 @@
+  /**
+ * Utility to calculate median of a numerical list
+ * @param arr: number[]
+ */
   export const getMedian = (arr: number[]) => {
     arr.sort((a, b) => a - b);
   

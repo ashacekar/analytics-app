@@ -1,3 +1,7 @@
+/**
+ * Utility to calculate mean of a numerical list
+ * @param arr: number[]
+ */
 export const getMean = (arr: number[]) => {
     arr.forEach((a,i)=>{
       if(!a){

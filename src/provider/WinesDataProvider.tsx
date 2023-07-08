@@ -4,6 +4,8 @@ import { getMean } from '../utility/getMean';
 import { getMode } from '../utility/getMode';
 import { getMedian } from '../utility/getMedian';
 import { groupByClass } from '../utility/groupByClass';
+import { addGammaProp } from '../utility/addGammaProp';
+import { WineDataNode } from '../model/WineDataNode';
 
 export interface WinesProps {
   winesData: any[];
@@ -65,7 +67,7 @@ interface Props {
 }
 
 export const WinesDataProvider: React.FunctionComponent<Props> = ({children}) => {
-  const [winesData, updateWinesData] = useState<any[]>(winesRawData);
+  const [winesData, updateWinesData] = useState<any[]>(addGammaProp(winesRawData));
   
   const [classNames, updateClassNames] = useState<string[]>([]);
 
@@ -139,9 +141,9 @@ export const WinesDataProvider: React.FunctionComponent<Props> = ({children}) =>
     Object.keys(wineByClass).forEach((key: any, index) => {
         let flavanoidList: number[] = [];
         let gammaList: number[] = [];
-        wineByClass[key].forEach((w: { Flavanoids: number; Ash: number; Hue: number; Magnesium: number; })=>{
+        wineByClass[key].forEach((w: WineDataNode)=>{
           flavanoidList.push(w.Flavanoids);
-          gammaList.push((w.Ash * w.Hue) / w.Magnesium);
+          gammaList.push(w.Gamma);
         })
         tempFlavanoidsByClass[key] = flavanoidList;
         tempGammaByClass[key] = gammaList;

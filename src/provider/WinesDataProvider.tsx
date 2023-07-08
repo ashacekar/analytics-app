@@ -74,7 +74,7 @@ interface Props {
  */
 
 export const WinesDataProvider: React.FunctionComponent<Props> = ({children}) => {
-  const [winesData, updateWinesData] = useState<WineDataNode[]>(addGammaProp(winesRawData));
+  const [winesData, updateWinesData] = useState<WineDataNode[]>(addGammaProp(winesRawData as WineDataNode[]));
   
   const [classNames, updateClassNames] = useState<string[]>([]);
 
@@ -159,7 +159,7 @@ export const WinesDataProvider: React.FunctionComponent<Props> = ({children}) =>
         let gammaList: number[] = [];
         wineByClass[key].forEach((w: WineDataNode)=>{
           flavanoidList.push(w.Flavanoids);
-          gammaList.push(w.Gamma);
+          gammaList.push(w.Gamma!);
         })
         tempFlavanoidsByClass[key] = flavanoidList;
         tempGammaByClass[key] = gammaList;

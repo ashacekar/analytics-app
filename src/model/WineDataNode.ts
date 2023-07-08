@@ -12,5 +12,5 @@ export interface WineDataNode {
     "Hue": number;
     "OD280/OD315 of diluted wines": number;
     "Unknown": number;
-    "Gamma": number;
+    "Gamma"?: number;
 }

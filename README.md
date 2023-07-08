@@ -36,4 +36,5 @@ Main Page (http://localhost:3000)
     Utility functions to calculate the class-wise mean, median, mode of
     “Gamma” for the entire dataset and results shown in tabular form
 
-![alt text](/public/main-page.png)
+![alt text](/public/flavanoids-table.png)
+![alt text](/public/gamma-table.png)

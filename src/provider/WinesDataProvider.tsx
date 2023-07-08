@@ -153,18 +153,17 @@ export const WinesDataProvider: React.FunctionComponent<Props> = ({children}) =>
     setFlavanoidsByClass(tempFlavanoidsByClass.filter((n)=>n));
     setGammaByClass(tempGammaByClass.filter((n)=>n));
 
-    Object.keys(flavanoidsByClass).forEach((key: any, index) => {
+    Object.keys(flavanoidsByClass).forEach((key: any) => {
       tempMeanFlavanoidsList.push(getMean(flavanoidsByClass[key]))
       tempModeFlavanoidsList.push(getMode(flavanoidsByClass[key]))
       tempMedianFlavanoidsList.push(getMedian(flavanoidsByClass[key]))
     });
 
-    console.log(flavanoidsByClass)
     setMeanFlavanoidsList(tempMeanFlavanoidsList);
     setModeFlavanoidsList(tempModeFlavanoidsList);
     setMedianFlavanoidsList(tempMedianFlavanoidsList);
 
-    Object.keys(gammaByClass).forEach((key: any, index) => {
+    Object.keys(gammaByClass).forEach((key: any) => {
       tempMeanGammaList.push(getMean(gammaByClass[key]))
       tempModeGammaList.push(getMode(gammaByClass[key]))
       tempMedianGammaList.push(getMedian(gammaByClass[key]))

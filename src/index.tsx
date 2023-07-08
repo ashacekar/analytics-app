@@ -1,15 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import {TableStats} from './components/TableStats/App';
+import {TableStats} from './components/TableStats/TableStats';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
+import { WinesDataProvider } from './provider/WinesDataProvider';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
   <React.StrictMode>
-    <TableStats />
+    <WinesDataProvider>
+      <TableStats />
+    </WinesDataProvider>
   </React.StrictMode>
 );
 

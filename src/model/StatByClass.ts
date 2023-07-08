@@ -1,3 +1,1 @@
-export interface StatByClass {
-    [key: string]: number[];
-}
+export type StatByClass = number[];

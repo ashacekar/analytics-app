@@ -6,10 +6,11 @@ import { getMedian } from '../utility/getMedian';
 import { groupByClass } from '../utility/groupByClass';
 import { addGammaProp } from '../utility/addGammaProp';
 import { WineDataNode } from '../model/WineDataNode';
+import { StatByClass } from '../model/StatByClass';
 
 export interface WinesProps {
-  winesData: any[];
-  setWinesData: (_: any[]) => void;
+  winesData: WineDataNode[];
+  setWinesData: (_: WineDataNode[]) => void;
 
   classNames: string[];
   setClassNames: (_: string[]) => void;
@@ -28,16 +29,16 @@ export interface WinesProps {
   medianGammaList: number[];
   setMedianGammaList: (_: number[]) => void;
 
-  flavanoidsByClass: any[];
-  setFlavanoidsByClass: (_: any[]) => void;
-  gammaByClass: any[];
-  setGammaByClass: (_: any[]) => void;
+  flavanoidsByClass: StatByClass[];
+  setFlavanoidsByClass: (_: StatByClass[]) => void;
+  gammaByClass: StatByClass[];
+  setGammaByClass: (_: StatByClass[]) => void;
 
 }
 
 export const WinesContext = createContext<WinesProps>({
-  winesData: [] as any,
-  setWinesData: (_: any[]) => {},
+  winesData: [] as WineDataNode[],
+  setWinesData: (_: WineDataNode[]) => {},
 
   classNames: [] as string[],
   setClassNames: (_: string[]) => {},
@@ -56,10 +57,10 @@ export const WinesContext = createContext<WinesProps>({
   medianGammaList: [] as number[],
   setMedianGammaList: (_: number[]) => {},
 
-  flavanoidsByClass: [] as any[],
-  setFlavanoidsByClass: (_: any[]) => {},
-  gammaByClass: [] as any[],
-  setGammaByClass: (_: any[]) => {},
+  flavanoidsByClass: [] as StatByClass[],
+  setFlavanoidsByClass: (_: StatByClass[]) => {},
+  gammaByClass: [] as StatByClass[],
+  setGammaByClass: (_: StatByClass[]) => {},
 });
 
 interface Props {
@@ -67,7 +68,7 @@ interface Props {
 }
 
 export const WinesDataProvider: React.FunctionComponent<Props> = ({children}) => {
-  const [winesData, updateWinesData] = useState<any[]>(addGammaProp(winesRawData));
+  const [winesData, updateWinesData] = useState<WineDataNode[]>(addGammaProp(winesRawData));
   
   const [classNames, updateClassNames] = useState<string[]>([]);
 
@@ -79,11 +80,11 @@ export const WinesDataProvider: React.FunctionComponent<Props> = ({children}) =>
   const [modeGammaList, updateModeGammaList] = useState<number[]>([]);
   const [medianGammaList, updateMedianGammaList] = useState<number[]>([]);
 
-  const [flavanoidsByClass, updateFlavanoidsByClass] = useState<any[]>([]);
-  const [gammaByClass, updateGammaByClass] = useState<any[]>([]);
+  const [flavanoidsByClass, updateFlavanoidsByClass] = useState<StatByClass[]>([]);
+  const [gammaByClass, updateGammaByClass] = useState<StatByClass[]>([]);
 
 
-  const setWinesData = (value: any[]) => {
+  const setWinesData = (value: WineDataNode[]) => {
     updateWinesData(value);
   }
 
@@ -115,11 +116,11 @@ export const WinesDataProvider: React.FunctionComponent<Props> = ({children}) =>
     updateMedianGammaList(value);
   }
 
-  const setFlavanoidsByClass = (value: any[]) => {
+  const setFlavanoidsByClass = (value: StatByClass[]) => {
     updateFlavanoidsByClass(value);
   }
 
-  const setGammaByClass = (value: any[]) => {
+  const setGammaByClass = (value: StatByClass[]) => {
     updateGammaByClass(value);
   }
 
@@ -135,10 +136,10 @@ export const WinesDataProvider: React.FunctionComponent<Props> = ({children}) =>
     let tempModeGammaList: number[] = [];
     let tempMedianGammaList: number[] = [];
 
-    let tempFlavanoidsByClass: any[] = [];
-    let tempGammaByClass: any[] = [];
+    let tempFlavanoidsByClass: StatByClass[] = [];
+    let tempGammaByClass: StatByClass[] = [];
 
-    Object.keys(wineByClass).forEach((key: any, index) => {
+    Object.keys(wineByClass).forEach((key: any) => {
         let flavanoidList: number[] = [];
         let gammaList: number[] = [];
         wineByClass[key].forEach((w: WineDataNode)=>{
@@ -149,8 +150,8 @@ export const WinesDataProvider: React.FunctionComponent<Props> = ({children}) =>
         tempGammaByClass[key] = gammaList;
     });
 
-    setFlavanoidsByClass(tempFlavanoidsByClass.filter((n: any)=>n));
-    setGammaByClass(tempGammaByClass.filter((n: any)=>n));
+    setFlavanoidsByClass(tempFlavanoidsByClass.filter((n)=>n));
+    setGammaByClass(tempGammaByClass.filter((n)=>n));
 
     Object.keys(flavanoidsByClass).forEach((key: any, index) => {
       tempMeanFlavanoidsList.push(getMean(flavanoidsByClass[key]))
@@ -158,6 +159,7 @@ export const WinesDataProvider: React.FunctionComponent<Props> = ({children}) =>
       tempMedianFlavanoidsList.push(getMedian(flavanoidsByClass[key]))
     });
 
+    console.log(flavanoidsByClass)
     setMeanFlavanoidsList(tempMeanFlavanoidsList);
     setModeFlavanoidsList(tempModeFlavanoidsList);
     setMedianFlavanoidsList(tempMedianFlavanoidsList);
@@ -172,7 +174,7 @@ export const WinesDataProvider: React.FunctionComponent<Props> = ({children}) =>
     setModeGammaList(tempModeGammaList);
     setMedianGammaList(tempMedianGammaList);
     // eslint-disable-next-line
-  },[winesData, classNames])
+  },[winesData,classNames,meanFlavanoidsList,modeFlavanoidsList,medianFlavanoidsList,meanGammaList,modeGammaList,medianGammaList])
 
   const WinesContextProviderValue = useMemo(
     () => ({ 
@@ -198,7 +200,7 @@ export const WinesDataProvider: React.FunctionComponent<Props> = ({children}) =>
         setGammaByClass 
       }),
       // eslint-disable-next-line
-    [winesData, classNames]
+    [winesData,classNames,meanFlavanoidsList,modeFlavanoidsList,medianFlavanoidsList,meanGammaList,modeGammaList,medianGammaList]
   )
 
 

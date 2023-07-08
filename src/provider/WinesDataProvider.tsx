@@ -74,7 +74,7 @@ interface Props {
  */
 
 export const WinesDataProvider: React.FunctionComponent<Props> = ({children}) => {
-  const [winesData, updateWinesData] = useState<WineDataNode[]>(addGammaProp(winesRawData as WineDataNode[]));
+  const [winesData, updateWinesData] = useState<WineDataNode[]>([]);
   
   const [classNames, updateClassNames] = useState<string[]>([]);
 
@@ -130,24 +130,24 @@ export const WinesDataProvider: React.FunctionComponent<Props> = ({children}) =>
     updateGammaByClass(value);
   }
 
- /*
- * Calculate mean, mode, median of flavanoids and gamma whenever wines data updates
- */
+  // Load the wine data
+  useEffect(()=>{
+    // Add gamma property in wine data
+    const updatedWineData = addGammaProp(winesRawData as WineDataNode[])
+    setWinesData(updatedWineData);
+  },[])
+
+  /*
+  * Calculate mean, mode, median of flavanoids and gamma whenever wines data updates
+  */
+
+  // Process flavanoid and gamma data by class to derive statistics
   useEffect(()=>{
       // Group wine data by Alcohol class as key
       const wineByClass = groupByClass(winesData, 'Alcohol'); // [1:{.....},2:{.....},....]
 
       // Get all alcohol class names
       setClassNames(Object.keys(wineByClass)); // [1,2,....]
-
-      // As we cannot directly update lists with setters, temporary variables are needed for statistic calculation lists
-      let tempMeanFlavanoidsList: number[] = [];
-      let tempModeFlavanoidsList: number[] = [];
-      let tempMedianFlavanoidsList: number[] = [];
-
-      let tempMeanGammaList: number[] = [];
-      let tempModeGammaList: number[] = [];
-      let tempMedianGammaList: number[] = [];
 
       let tempFlavanoidsByClass: StatByClass[] = [];
       let tempGammaByClass: StatByClass[] = [];
@@ -167,7 +167,14 @@ export const WinesDataProvider: React.FunctionComponent<Props> = ({children}) =>
       setFlavanoidsByClass(tempFlavanoidsByClass.filter((n)=>n));  // [1:[x,y,z,...],2:[x,y,z,...],....] where x, y, z are flavanoid values
       setGammaByClass(tempGammaByClass.filter((n)=>n));  // [1:[x,y,z,...],2:[x,y,z,...],....] where x, y, z are gamma values
 
-      // For each class calculate mean, mode and median of flavanoids
+  // eslint-disable-next-line
+  },[winesData]);
+
+    // For each class calculate mean, mode and median of flavanoids
+    useEffect(()=>{
+      let tempMeanFlavanoidsList: number[] = [];
+      let tempModeFlavanoidsList: number[] = [];
+      let tempMedianFlavanoidsList: number[] = [];
       Object.keys(flavanoidsByClass).forEach((key: any) => {
         tempMeanFlavanoidsList.push(getMean(flavanoidsByClass[key]))
         tempModeFlavanoidsList.push(getMode(flavanoidsByClass[key]))
@@ -177,8 +184,13 @@ export const WinesDataProvider: React.FunctionComponent<Props> = ({children}) =>
       setMeanFlavanoidsList(tempMeanFlavanoidsList); // [m1,m2,.....] where m1, m2 are mean flavanoid values got respective classes in order
       setModeFlavanoidsList(tempModeFlavanoidsList); // [mo1,mo2,.....] where mo1, mo2 are mode flavanoid values got respective classes in order
       setMedianFlavanoidsList(tempMedianFlavanoidsList); // [me1,me2,.....] where me1, me2 are median flavanoid values got respective classes in order
+  },[flavanoidsByClass])
 
-      // For each class calculate mean, mode and median of gamma
+  // For each class calculate mean, mode and median of gamma
+  useEffect(()=>{
+      let tempMeanGammaList: number[] = [];
+      let tempModeGammaList: number[] = [];
+      let tempMedianGammaList: number[] = [];
       Object.keys(gammaByClass).forEach((key: any) => {
         tempMeanGammaList.push(getMean(gammaByClass[key]))
         tempModeGammaList.push(getMode(gammaByClass[key]))
@@ -188,9 +200,7 @@ export const WinesDataProvider: React.FunctionComponent<Props> = ({children}) =>
       setMeanGammaList(tempMeanGammaList); // [m1,m2,.....] where m1, m2 are mean gamma values got respective classes in order
       setModeGammaList(tempModeGammaList); // [mo1,mo2,.....] where mo1, mo2 are mode gamma values got respective classes in order
       setMedianGammaList(tempMedianGammaList); // [me1,me2,.....] where me1, me2 are median gamma values got respective classes in order
-
-    // eslint-disable-next-line
-  },[classNames])
+  },[gammaByClass])
 
   const WinesContextProviderValue = useMemo(
     () => ({ 
@@ -216,7 +226,18 @@ export const WinesDataProvider: React.FunctionComponent<Props> = ({children}) =>
         setGammaByClass 
       }),
       // eslint-disable-next-line
-    [classNames]
+      [ 
+        winesData,
+        classNames,
+        meanFlavanoidsList,
+        modeFlavanoidsList,
+        medianFlavanoidsList,
+        meanGammaList,
+        modeGammaList,
+        medianGammaList,
+        flavanoidsByClass,
+        gammaByClass,
+      ]
   )
 
 
